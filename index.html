@@ -2,10 +2,24 @@
 	<head>
 		<title>Randomwords</title>
 		<script src="words.js"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+		<style>
+			html, body {
+				font-family: 'Poppins', sans-serif;
+			}
+		</style>
 		<script>
 			
+			function start() {
 			var titleLength = 4;
-			var bookLength = 5000;
+			var bookLength = parseInt(document.getElementById("strAmnt").value);
+				
+			document.getElementById("strAmnt").style.visibility = "hidden";
+			document.getElementById("strButt").style.visibility = "hidden";
+			document.getElementById("strText").style.visibility = "hidden";
+			document.getElementById("WaitText").style.visibility = "visible";
 			
 			var items = getItems();
 			
@@ -14,7 +28,7 @@
 					var array = Array.from(items);
 					var random = Math.floor(Math.random() * array.length);
 					document.getElementById("Title").innerHTML = document.getElementById("Title").innerHTML + " " + array[random];
-				}, 10)
+				}, 2)
 			}
 			
 			var c = 0;
@@ -25,19 +39,26 @@
 					var array = Array.from(items);
 					var random = Math.floor(Math.random() * array.length);
 					document.getElementById("Text").innerHTML = document.getElementById("Text").innerHTML + " " + array[random];
-					if (c == bookLength-1)
+					if (c == bookLength-1) {
 						document.getElementById("Wait").style.visibility = "hidden";
-					document.getElementById("WaitText").innerHTML = c + "/" + bookLength + " words";
-				}, 10)
+					document.getElementById("WaitText").style.visibility = "hidden";
+					}
+					var prot = Math.floor(((c / bookLength) * 100)).toString()
+					document.getElementById("WaitText").innerHTML = c + " / " + bookLength + " (" + prot.substr(0, prot.length) + "%)";
+				}, 2)
+			}
 			}
 			
 		</script>
 	</head>
 	<body style="overflow-x: hidden">
-		<p id="Title" style="text-align: center; overflow-wrap: anywhere; width: 100%; font-size: 15vh;"></p>
-		<p id="Text" style="font-size:4vh;overflow-wrap: anywhere; width: 100%;"></p>
+		<p id="Title" style="text-align: center; overflow-wrap: anywhere; width: 100%; font-size: 15vh; visibility: visible;"></p>
+		<p id="Text" style="font-size:4vh;overflow-wrap: anywhere; width: 100%; visibility: visible;"></p>
 		<div id="Wait" style="background-color: lightblue; width: 80%; height: 13%; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 40px;">
-			<p id="WaitText" style="text-align: center; width: 100%; height: 100%; font-size: 10vh; position: absolute; top: -70%;">Please wait</p>
+			<p id="WaitText" style="text-align: center; width: 100%; height: 100%; font-size: 10vh; position: absolute; top: -81%; visibility: hidden;">Loading..</p>
+			<p id="strText" style="text-align: center; width: 100%; height: 100%; font-size: 7vh; position: absolute; top: -65%;">Enter amount of words to generate</p>
+			<input id="strAmnt" style="text-align: center; width: 30%; height: 30%; font-size: 4h; position: absolute; top: 61%; left: 51.5%; transform: translateX(-0%); border-radius: 25px;" value="5000">
+			<button id="strButt" style="text-align: center; width: 30%; height: 30%; font-size: 3vh; position: absolute; top: 61%; left: calc(50% - 1.5%); transform: translateX(-100%); border-radius: 25px;" onclick="start();">Start</button>
 		</div>
 	</body>
 </html>
